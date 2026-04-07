@@ -1,5 +1,0 @@
-streamlit
-streamlit-webrtc
-opencv-python-headless
-deepface
-numpy<2.0.0
