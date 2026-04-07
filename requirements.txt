@@ -1,7 +1,19 @@
+# Motor principal
 streamlit
+
+# Procesamiento de video en tiempo real
 streamlit-webrtc
+
+# Visión artificial (Versión sin GUI para servidores)
 opencv-python-headless
-deepface
+
+# Inteligencia Artificial y Deep Learning
+# Nota: tf-keras se instala como dependencia, pero es mejor declararlo 
+# junto con una versión de tensorflow compatible
+tensorflow-cpu
 tf-keras
+deepface
+
+# Utilidades de datos e imagen
 Pillow
-numpy
+numpy<2.0.0
