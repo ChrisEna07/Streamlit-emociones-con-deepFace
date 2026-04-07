@@ -1,5 +1,5 @@
 import streamlit as st
-from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
+from streamlit_webrtc import webrtc_streamer, VideoProcessorBase  # Cambio 1: VideoTransformerBase -> VideoProcessorBase
 import cv2
 from deepface import DeepFace
 import numpy as np
@@ -386,7 +386,8 @@ def draw_circular_scan(img, center_x, center_y, radius, scan_progress, frame_cou
         cv2.circle(img, (px, py), 2, (0, 212, 255), -1)
 
 # --- CLASE DE PROCESAMIENTO OPTIMIZADA CON MÉTRICAS Y ESCÁNER ---
-class FaceAnalyzer(VideoTransformerBase):
+# Cambio 2: VideoTransformerBase -> VideoProcessorBase
+class FaceAnalyzer(VideoProcessorBase):  
     def __init__(self):
         self.frame_count = 0
         self.last_results = None
@@ -410,7 +411,8 @@ class FaceAnalyzer(VideoTransformerBase):
             'detections': len(self.detection_success)
         }
 
-    def transform(self, frame):
+    # Cambio 3: transform() -> recv()
+    def recv(self, frame):  
         img = frame.to_ndarray(format="bgr24")
         self.frame_count += 1
         
@@ -531,7 +533,7 @@ with col1:
     
     webrtc_streamer(
         key="face-analyzer", 
-        video_transformer_factory=FaceAnalyzer,
+        video_processor_factory=FaceAnalyzer,  # Nota: también cambié video_transformer_factory a video_processor_factory
         rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
         media_stream_constraints={"video": True, "audio": False}
     )
